@@ -16,7 +16,7 @@ with open('HISTORY.rst') as history_file:
 
 setup(
     name='sportsstats',
-    version='0.1.0',
+    version='0.1.1',
     description="Tools for downloading sports statistics.",
     long_description=readme + '\n\n' + history,
     author="William Myers",
