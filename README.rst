@@ -21,12 +21,10 @@ Tools for downloading sports statistics.
 Installation
 ------------
 
-1. Install pip::
+1. Install_ pip::
    
    $ sudo easy_install pip
    
-or follow PyPI's installation_ guide
-
 2. Install `sportsstats`:: 
    
    $ pip install sportsstats
@@ -34,8 +32,15 @@ or follow PyPI's installation_ guide
 Usage
 -----
 
-Run: ``stats -h`` for usage info and help.
+For usage info and help::
 
+   $ stats -h
 
-.. _installation: https://pip.pypa.io/en/stable/installing/
+Contributing
+------------
+
+See: CONTRIBUTING.rst_
+
+.. _CONTRIBUTING.rst: https://github.com/mwilliammyers/sportsstats/blob/master/CONTRIBUTING.rst
+.. _Install: https://pip.pypa.io/en/stable/installing/
 .. _Documentation: https://sportsstats.readthedocs.org
