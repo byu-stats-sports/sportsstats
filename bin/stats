@@ -1,6 +1,8 @@
 #!/usr/bin/env python 
 
-"""Download sports statistics & write the results to a human readable JSON file 
+"""stats
+
+Download sports statistics & write the results to a human readable JSON file 
 """
 
 from __future__ import print_function
@@ -10,39 +12,98 @@ from datetime import datetime
 from sportsstats import nba, utils
 import os
 
+
+def valid_date(date, date_format="%d/%m/%Y"):
+    """Ensures a valid date.
+
+    Args:
+        date (str): The date in the form specified in `date_format`.
+        date_format (str): The date format to parse `date` according to.
+
+    Returns:
+        datetime: The date object.
+
+    Raises:
+        argparse.ArgumentTypeError: If the date cannot be parsed according to 
+            the specified format.
+    """
+    try:
+        return datetime.strptime(date, date_format)
+    except ValueError:
+        msg = "Not a valid date: '{0}'.".format(date)
+        raise argparse.ArgumentTypeError(msg)
+
+def valid_date_range(s):
+    """Ensure a valid date range.
+
+    Args:
+        s (str): A date range or single date in the form `date1-date2`
+
+    Returns:
+        (datetime, datetime): The start & end dates or (start, start).
+
+    Raises:
+        argparse.ArgumentTypeError: If either date is not valid or if date(s) 
+            cannot be inferred according to the above format.
+    """
+    dates = []
+    for date in s.split('-'):
+        dates.append(valid_date(date))
+    if len(dates) is 2:
+        start = dates[0]
+        end = dates[1]
+    elif len(dates) is 1:
+        start = end = dates[0]
+    else:
+        msg = "Not a valid date range or date: '{0}'.".format(s)
+        raise argparse.ArgumentTypeError(msg)
+    return (start, end)
+
+
+def valid_path(path):
+    """Obtain an unique, absolute filepath from path. 
+
+    Args: 
+        path (str): Any path.
+
+    Returns:
+        str: A unique, absolute filepath in the form `/somedir/name_%d.ext`.
+    """
+    return utils.unique_filepath(path)
+
+
 def parse_args():
-    parser = argparse.ArgumentParser(description='Download sports statistics.')
+    """Parse and validate command line arguments.
+    """
+    parser = argparse.ArgumentParser(description='Download sports statistics.',
+            formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     dt = datetime.now()
     today = dt.strftime('%m/%d/%Y')
-    parser.add_argument('-d', '--date', action='store', default=today, type=str,
-                        help='date range to download; '
-                             'default: {0} or {0}-{0}'.format(today))
-
-    last_season = utils.add_years(dt, -1).strftime('%Y')
-    this_season = dt.strftime('%y')
-    season = "{}-{}".format(last_season, this_season)
-    parser.add_argument('-s', '--season', action='store', default=season, type=str, 
-                        help='season; default: {}'.format(season))
+    parser.add_argument('-d', '--date', action='store', type=valid_date_range,
+                        default=today, 
+                        help='dash separated date range '
+                             'or single date to download')
 
     path = os.path.relpath('nba.json') 
-    parser.add_argument('-f', '-o', '--file', action='store', default=path, type=str, 
-                        help='file output path; default: {}'.format(path))
+    parser.add_argument('-f', '-o', '--file', action='store', type=valid_path,
+                        default=path, help='file output path')
     return parser.parse_args()
 
 
 def main():
-    try:
-        args = parse_args()
+    args = parse_args()
+    # Open the file at the beginning so no one else can mess with it
+    with open(args.file, 'w') as f:
         print("Downloading requested statistics...")
-        start, end = utils.split_date(args.date)
-        nba_stats = nba.Stats(start, end, args.season)
+        start, end = args.date
+        nba_stats = nba.Stats(start, end)
         data = nba_stats.download()
         json_dump = utils.beautify_json(data)
-        print("Writing statistics to: {}".format(os.path.relpath(args.file)))
-        utils.write_file(args.file, json_dump)
-    except (ValueError, nba.DownloadError) as e:
-        exit(e)
+        print("Writing statistics to: {}"
+              .format(os.path.relpath(args.file)))
+        f.write(json_dump)
 
 if __name__ == '__main__':
-    exit(main())
+    import sys
+    sys.exit(main())

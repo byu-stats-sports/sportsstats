@@ -27,7 +27,10 @@ env:
 - TOXENV=py27
 - TOXENV=py26
 - TOXENV=pypy
-install: pip install -U tox
+install: 
+  - pip install -U tox flake8
 language: python
 python: 3.5
-script: tox
+script:
+  - make lint
+  - make test-all

@@ -1,9 +1,6 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
-"""
-test_nba
-----------------------------------
+"""test_nba
 
 Tests for `nba` module.
 """
@@ -17,8 +14,9 @@ from sportsstats import nba
 class TestNba(unittest.TestCase):
 
     def setUp(self):
-        today = '04/09/2016'
-        self.nba_stats = nba.Stats(today, today, '2015-16')
+        from datetime import datetime
+        april_9 = datetime(2016, 4, 9)
+        self.nba_stats = nba.Stats(april_9, april_9)
         self.expected_query_url = (
                 "/stats/leaguedashptstats?"
                 "College=&Conference=&Country=&DateFrom=04%2F09%2F2016&"
