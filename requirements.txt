@@ -1,0 +1,12 @@
+# Needed for development
+
+PyYAML>=3.11
+Sphinx>=1.3.1
+bumpversion>=0.5.3
+coverage>=4.0
+cryptography>=1.0.1
+flake8>=2.4.1
+tox>=2.1.1
+twine>=1.6.5
+watchdog>=0.8.3
+wheel>=0.23.0

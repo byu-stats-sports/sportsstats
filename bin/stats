@@ -1,0 +1,48 @@
+#!/usr/bin/env python 
+
+"""Download sports statistics & write the results to a human readable JSON file 
+"""
+
+from __future__ import print_function
+
+import argparse
+from datetime import datetime
+from sportsstats import nba, utils
+import os
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Download sports statistics.')
+
+    dt = datetime.now()
+    today = dt.strftime('%m/%d/%Y')
+    parser.add_argument('-d', '--date', action='store', default=today, type=str,
+                        help='date range to download; '
+                             'default: {0} or {0}-{0}'.format(today))
+
+    last_season = utils.add_years(dt, -1).strftime('%Y')
+    this_season = dt.strftime('%y')
+    season = "{}-{}".format(last_season, this_season)
+    parser.add_argument('-s', '--season', action='store', default=season, type=str, 
+                        help='season; default: {}'.format(season))
+
+    path = os.path.relpath('nba.json') 
+    parser.add_argument('-f', '-o', '--file', action='store', default=path, type=str, 
+                        help='file output path; default: {}'.format(path))
+    return parser.parse_args()
+
+
+def main():
+    try:
+        args = parse_args()
+        print("Downloading requested statistics...")
+        start, end = utils.split_date(args.date)
+        nba_stats = nba.Stats(start, end, args.season)
+        data = nba_stats.download()
+        json_dump = utils.beautify_json(data)
+        print("Writing statistics to: {}".format(os.path.relpath(args.file)))
+        utils.write_file(args.file, json_dump)
+    except (ValueError, nba.DownloadError) as e:
+        exit(e)
+
+if __name__ == '__main__':
+    exit(main())
