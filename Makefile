@@ -48,7 +48,7 @@ clean-test:
 	rm -fr htmlcov/
 
 lint:
-	flake8 sportsstats tests
+	flake8 sportsstats tests bin
 
 test:
 	python setup.py test
