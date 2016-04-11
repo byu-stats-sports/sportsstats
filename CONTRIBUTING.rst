@@ -64,7 +64,7 @@ Ready to contribute? Here's how to set up `sportsstats` for local development.
 
     $ git clone git@github.com:your_name_here/sportsstats.git
 
-3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper_ installed, this is how you set up your fork for local development::
+3. Install your local copy into a virtualenv_. Assuming you have virtualenvwrapper_ installed, this is how you set up your fork for local development::
 
     $ mkvirtualenv sportsstats
     $ cd sportsstats/
@@ -115,4 +115,5 @@ To run a subset of tests::
     $ python -m unittest tests.test_sportsstats
 
 
+.. _virtualenv: https://virtualenvwrapper.readthedocs.org/en/latest/
 .. _virtualenvwrapper: https://virtualenvwrapper.readthedocs.org/en/latest/
