@@ -1,35 +1,22 @@
 deploy:
-  true:
-    condition: $TOXENV == py27
-    repo: mwilliammyers/sportsstats
-    tags: true
-  password:
-    secure: !!binary |
-      RXZQbjRUN1FvNklXTVBFYXlPSjZBRm9jbE4zMU1qQkhDU01vN2dSWVZFdGNSVklmTWN6aGR5TDk3
-      bEh5ZVZ5VzdUaWwra1NYd085RGdkWlAvb1NEUkd4aEJVWkZXL0JCUGdFTXppSW9vYzVlbHNhaWg3
-      MVU3SXRLNWQ1bHlOcTVYV3I1SU54U0tIL1VXSTZuMzVOKzl6R2E5ZlVxcnlsOE51ZUJGV1FiRTV0
-      NDNQUzJLSk1sN0diUnRQZGgyUm5xeTMySDluTG5xYitQa1hnMitTN3laVWRnL2xOWTEyV002a21M
-      Tm5nbVpUTmI3T0hBR0o2NlViWGRhNnJKNUphdWNpNUVid3JTZ0xHaHQ4cjhEOUpBTzR4ckxVdGIx
-      THRJUkpxQ2V2dHFjOC93SkMzaWJIOGVMOGNsUWsxT01uWDN3WnhBM2tpbk9XVzNaWWlhc2dJdFRG
-      NTJRTElmcE1kellEWWpZcjdwVm40cThBUktWSktuQVptMVYzaS9NWmlURnd3UmNEcUtuK1h4Mjdw
-      ZzRKTEJUN3dlZFBvcW02RllNYWFlREJ2bDFTRXBZejNhUGhIV0RoUG5kQnZYNEhjc1YvNkpsdzdL
-      Z3BxWktReGJlVkg5QjFLSGovWHVlTnFCWnR1ckhiZFB1aGtFTmJHUlNsaWk5MHFZT25VVVlOMElV
-      WTRtSU1pcEFGeUdkVUluVXJ2SFZCUEFMTVJqbVAxWUd5ViswbXh0Y0F0bHBZdzJSMkFaMkxieElX
-      MVVVc0tqSHMwSVkwRVJxV0FlY01JdXBoUCtOMmFFUGE3azFsZlJSSXp4b3FCMDhKajYvODhWT1dh
-      ekZlcGFXbjB6VVZNdHBPOVVOTDNpVjZTVno0Q3h6bFkwMjNHWDMwc2dYQzNkSnh1WWR6L3ZSczA9
-  distributions: sdist bdist_wheel
   provider: pypi
   user: mwilliammyers
+  password:
+    secure: zSk4jf4vaTI9gIBWjguVhf+fRkQP/hQaOQERqZJVKo+9VlRm6xtgth0GvWhdksTl1/4C2qfbWu31uIQ7rswZxBZEgBogDGk8uCFsaD+G9mV3cp2XiH2C2+G8FCMXbMbPmBD3vOujik+2gROSq5o5ky+YEJ5eRoRxRF0Hk0GpTFMWSFqZkn+jeBjv2ZBVXQSTSoIEEe1KIfOEX802amEdBukeP0EbCmtREhonvxANwjnGgQ77yHcKENPhosT/UhS/x8h1sKT189TMcd33aE5nykTn8gbbZ2XC6hk4zoALsEN5p/i10rtvZ4TeRss+X3No5eeXTTpERQM5dJ2vCLkdhPLTyqeA/HG4W1KR7idlurAWI5cSYyUgwWpolJw646svz/kyTIzGDrVJV6x/uA7N+a8Wqe0wmtlumVFe+s5yjuXZOFxspi63k13LcoQnV9cGs26Sja0RFS8XxcHA/zQW7ZqqOVR87VGcwuMJR3E7EfQQq9wUwz5tge9DOznpvwF+vMJpX0s1FQ0B6NlMXpd+4HQ5tmnlM2eN4c8PPE5Fnpj9s15nddcEcltBmvYqcE8JeZNJzowt9zX3KL/GJF6vkXK172A4eckG0JUXiyGOo56OefJ+m8z0Do5fVV0Yhec2VBjlexlAVV37O7UvSOnX+2lU9NASxphSe3nMlt6iD14=
+  on:
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: mwilliammyers/sportsstats
 env:
-  - TOXENV=py35
-  - TOXENV=py34
-  - TOXENV=py33
-  - TOXENV=py27
-  - TOXENV=pypy
-install: 
-  - pip install -U tox flake8
+- TOXENV=py35
+- TOXENV=py34
+- TOXENV=py33
+- TOXENV=py27
+- TOXENV=pypy
+install:
+- pip install -U tox flake8
 language: python
 python: 3.5
 script:
-  - make lint
-  - make test-all
+- make lint
+- make test-all
