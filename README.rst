@@ -16,8 +16,6 @@ sportsstats
 Tools for downloading sports statistics.
 
 
-.. highlight:: shell
-
 Installation
 ------------
 
