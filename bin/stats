@@ -14,7 +14,7 @@ import sportsstats.utils
 import os
 
 
-def valid_date(date, date_format="%d/%m/%Y"):
+def valid_date(date, date_format="%m/%d/%Y"):
     """Ensures a valid date.
 
     Args:
