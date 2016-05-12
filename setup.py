@@ -3,7 +3,7 @@
 
 
 try:
-    from setuptools import setup
+    from setuptools import setup, find_packages
 except ImportError:
     from distutils.core import setup
 
@@ -22,11 +22,9 @@ setup(
     author="William Myers",
     author_email='mwilliammyers+pypi@gmail.com',
     url='https://github.com/mwilliammyers/sportsstats',
-    packages=[
-        'sportsstats',
-    ],
+    packages=find_packages('lib'),
     package_dir={
-        'sportsstats': 'sportsstats'
+        '': 'lib',
     },
     scripts=[
         'bin/stats',

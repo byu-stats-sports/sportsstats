@@ -9,7 +9,8 @@ from __future__ import print_function
 
 import argparse
 from datetime import datetime
-from sportsstats import nba, utils
+import sportsstats.nba.downloader
+import sportsstats.utils
 import os
 
 
@@ -69,7 +70,7 @@ def valid_path(path):
     Returns:
         str: A unique, absolute filepath in the form `/somedir/name_%d.ext`.
     """
-    return utils.unique_filepath(path)
+    return sportsstats.utils.unique_filepath(path)
 
 
 def parse_args():
@@ -97,9 +98,9 @@ def main():
     with open(args.file, 'w') as f:
         print("Downloading requested statistics...")
         start, end = args.date
-        nba_stats = nba.Stats(start, end)
+        nba_stats = sportsstats.nba.downloader.HttpDownloader(start, end)
         data = nba_stats.download()
-        json_dump = utils.beautify_json(data)
+        json_dump = sportsstats.utils.beautify_json(data)
         print("Writing statistics to: {}"
               .format(os.path.relpath(args.file)))
         f.write(json_dump)
