@@ -9,9 +9,9 @@ from __future__ import print_function
 from datetime import datetime
 import argparse
 import logging
-import os
 import sportsstats.nba
 import sportsstats.utils
+
 
 # TODO: add support for more flexible date parsing
 #       https://github.com/dateutil/dateutil/
@@ -67,8 +67,9 @@ def _valid_date_range(s):
 def parse_args():
     """Parse and validate command line arguments.
     """
+    formatter = argparse.ArgumentDefaultsHelpFormatter
     parser = argparse.ArgumentParser(description='Download sports statistics.',
-            formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+                                     formatter_class=formatter)
 
     dt = datetime.now()
     today = dt.strftime('%m/%d/%Y')

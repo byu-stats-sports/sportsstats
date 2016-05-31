@@ -51,19 +51,18 @@ def init_logging(verbosity):
         from colorlog import ColoredFormatter
         formatter = ColoredFormatter(
                 '%(log_color)s%(levelname)s%(reset)s' + shared_fmt,
-            log_colors={
-                'DEBUG':    'cyan',
-                'INFO':     'green',
-                'WARNING':  'yellow',
-                'ERROR':    'red',
-                'CRITICAL': 'black,bg_red',
-            }
+                log_colors={
+                    'DEBUG':    'cyan',
+                    'INFO':     'green',
+                    'WARNING':  'yellow',
+                    'ERROR':    'red',
+                    'CRITICAL': 'black,bg_red',
+                }
         )
         stream = logging.StreamHandler()
         stream.setFormatter(formatter)
         logger.addHandler(stream)
         logger.setLevel(level)
     except ImportError:
-        logging.basicConfig(level=level,
-                format='%(levelname)s' + shared_fmt )
+        logging.basicConfig(level=level, format='%(levelname)s' + shared_fmt)
     return logger
