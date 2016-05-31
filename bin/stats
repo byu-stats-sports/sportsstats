@@ -80,12 +80,6 @@ def parse_args():
     parser.add_argument("-v", "--verbose", action="count",
                         help="increase output verbosity")
 
-    #  parser.add_argument('-f', '-o', '--output', action='store',
-                        #  type=_unique_path, help='file output path')
-
-    #  #  path = os.path.relpath('nba.json')
-    #  parser.add_argument('-i', '--input', action='store', type=_open_file,
-                        #  help='file input path')
     return parser.parse_args()
 
 
@@ -95,8 +89,6 @@ def main():
     print("Downloading requested statistics...")
     start, end = args.date
     nba_result = sportsstats.nba.Downloader(start, end).download()
-    #  if args.output:
-            #  args.output.write(nba_result.json)
     if logger.isEnabledFor(logging.DEBUG):
         import pprint
         pp = pprint.PrettyPrinter(indent=1)

@@ -7,57 +7,6 @@ Utilities used in sportsstats
 
 import logging
 
-def open_file(path):
-    """An absolute filepath from path.
-    Args:
-        path (str): Any path.
-    Returns:
-        file: An opened file object with read only permissions.
-    Raises:
-        argparse.ArgumentTypeError: If file doesn't exist or we don't have
-            sufficient permissions.
-    """
-    try:
-        with open(path, 'r') as f:
-            return f
-    except OSError as e:
-        raise argparse.ArgumentTypeError(e)
-
-
-def unique_path(path):
-    """Get a unique, absolute filepath from path by appending _%d, where %d is
-    a unique digit starting at 1.
-    Args:
-        path (str): A not necessarily unique or absolute filepath.
-    Returns:
-        file: An opened file object with write only permissions.
-    """
-    import os
-    attempt = 0
-    file_path = os.path.splitext(os.path.abspath(path))
-    file_name = file_path[0]
-    file_ext = file_path[1]
-    while True:
-        suffix = '_' + str(attempt) if attempt > 0 else ''
-        attempt_file_path = file_name + suffix + file_ext
-        if not os.path.exists(attempt_file_path):
-            with open(attempt_file_path, 'w') as f:
-                return f
-        attempt += 1
-
-
-def beautify_json(content):
-    """Parse JSON string and make it more human readable.
-
-    Args:
-        content (str): UTF-8 encoded JSON.
-    Returns:
-        str: Human readable JSON
-    """
-    import json
-    json_data = json.loads(content)
-    return json.dumps(json_data, sort_keys=True, indent=4)
-
 
 def add_years(dt, years):
     """Add (or subtract) years, handling leap years.
