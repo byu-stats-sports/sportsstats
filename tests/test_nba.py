@@ -5,11 +5,8 @@
 Tests for `nba` module.
 """
 
-import unittest
-
-import json
 from sportsstats import nba
-
+import unittest
 
 class TestNba(unittest.TestCase):
 

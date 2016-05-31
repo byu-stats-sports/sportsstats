@@ -1,24 +1,44 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 
 try:
     from setuptools import setup, find_packages
 except ImportError:
     from distutils.core import setup
+import sys
 
+from setuptools.command.test import test as TestCommand
+import sys
+
+class Tox(TestCommand):
+    user_options = [('tox-args=', 'a', "Arguments to pass to tox")]
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.tox_args = None
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+    def run_tests(self):
+        #import here, cause outside the eggs aren't loaded
+        import tox
+        import shlex
+        args = self.tox_args
+        if args:
+            args = shlex.split(self.tox_args)
+        errno = tox.cmdline(args=args)
+        sys.exit(errno)
+
+#  needs_detox = {'pytest', 'test', 'ptr'}.intersection(sys.argv)
+#  pytest_runner = ['pytest-runner'] if needs_pytest else []
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
-
-with open('HISTORY.rst') as history_file:
-    history = history_file.read()
 
 setup(
     name='sportsstats',
     version='0.1.3',
     description="Tools for downloading sports statistics.",
-    long_description=readme + '\n\n' + history,
+    long_description=readme,
     author="William Myers",
     author_email='mwilliammyers+pypi@gmail.com',
     url='https://github.com/mwilliammyers/sportsstats',
@@ -30,7 +50,9 @@ setup(
         'bin/stats',
     ],
     include_package_data=True,
-    install_requires=[],
+    install_requires=[
+        'nba_py'
+    ],
     license="GPLv3+",
     zip_safe=False,
     keywords='sportsstats stats statistics sports',
@@ -47,6 +69,19 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
+    #  setup_requires=[
+    #  ] + pytest_runner,
     test_suite='tests',
-    tests_require=[]
+        #  'pytest',
+        #  'pytest-flake8',
+        #  'pytest-cov',
+    tests_require=[
+        'tox'
+    ],
+    cmdclass = {
+        'test': Tox
+    },
+    dependency_links=[
+        'http://github.com/mwilliammyers/nba_py/tarball/master#egg=nba_py'
+    ]
 )
